@@ -1,0 +1,76 @@
+# version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "8502:8501" # Port chạy Streamlit
+    # env_file:
+    #   - .env
+    volumes:
+      - ./frontend:/app
+    depends_on:
+      - backend
+      - redis
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8001:8000" # Port chạy FastAPI
+    env_file:
+      - .env
+    # environment:
+    #   - GOOGLE_API_KEY=${GOOGLE_API_KEY}
+    #   - QDRANT_API_KEY=${QDRANT_API_KEY}
+    #   - QDRANT_URL=${QDRANT_URL}
+    #   - HOST_NAME=${HOST_NAME}
+    #   - PORT=${PORT}
+    #   - USERNAME=${USERNAME}
+    #   - PASSWORD=${PASSWORD}
+    #   - DB_NAME=${DB_NAME}
+    volumes:
+      - ./backend:/app
+    depends_on:
+      - postgres
+      - qdrant
+
+  postgres:
+    image: postgres:latest
+    container_name: postgres
+    ports:
+      - "5433:5432"
+    env_file:
+      - .env
+    environment:
+      - POSTGRES_PASSWORD=${PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_USER=${USERNAME}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:latest
+    container_name: redis
+    ports:
+      - "6380:6379"
+    volumes:
+      - redis_data:/data
+
+  qdrant:
+    image: qdrant/qdrant:latest
+    container_name: qdrant
+    ports:
+      - "6333:6333"
+    # env_file:
+    #   - .env
+    volumes:
+      - qdrant_data:/qdrant/storage
+
+volumes:
+  postgres_data:
+  redis_data:
+  qdrant_data:

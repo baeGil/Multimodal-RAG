@@ -1,0 +1,17 @@
+langchain-qdrant
+langchain-community
+# sentence_transformers
+# accelerate
+matplotlib
+langchain-google-genai
+# dotenv
+pillow 
+pydantic
+unstructured[all-docs]
+lxml
+tiktoken
+langchain-experimental
+timm
+fastapi[standard]
+streamlit
+watchdog

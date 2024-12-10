@@ -1,0 +1,15 @@
+fastapi ==0.115.3
+uvicorn ==0.32.0
+sqlalchemy ==2.0.25
+pydantic ==2.9.2
+psycopg2-binary ==2.9.10
+langchain-qdrant ==0.2.0
+# unstructured ==0.16.3
+unstructured[all-docs]
+sentence_transformers ==3.3.1
+langchain-community ==0.3.8
+langchain-google-genai ==2.0.5 # using gemini from google
+python-decouple ==3.8 # For environment variable management
+pdfminer.six
+pi_heif
+IPython

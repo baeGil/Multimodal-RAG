@@ -1,0 +1,5 @@
+streamlit ==1.40.2
+requests ==2.31.0
+python-decouple ==3.8  # For managing API keys or environment variables
+watchdog ==2.1.6
+redis ==5.2.1
