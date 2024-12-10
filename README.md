@@ -20,7 +20,7 @@ Once `Docker` is installed and running, follow these steps to build and run the 
 git clone https://github.com/baeGil/Multimodal-RAG.git
 ```
 
-### 3. Provide .env file 
+### 3. Provide `.env` file and `data` folder
 Create a `.env` file inside the root directory of the project, following the format below
 
 ```shell
@@ -33,7 +33,7 @@ USERNAME=YOUR_POSTGRES_USERNAME
 PASSWORD=YOUR_POSTGRES_PASSWORD
 DB_NAME=YOUR_DB_NAME (multimodal_rag is suggested)
 ```
-
+Go to backend folder and create an empty folder name `data` if it not exists
 ### 4. Build the Docker Compose
 
 Navigate to the root directory of the project and run the following command to build the Docker containers:
