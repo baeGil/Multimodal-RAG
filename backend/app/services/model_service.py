@@ -17,6 +17,6 @@ if "GOOGLE_API_KEY" not in os.environ:
 gemini_model = ChatGoogleGenerativeAI( 
     model="gemini-2.0-flash-exp",
     temperature=0.3,
-    top_k=100,
+    top_k=40,
     top_p=0.9
 )
