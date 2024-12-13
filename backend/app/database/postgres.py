@@ -6,16 +6,14 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-username=os.getenv("USERNAME")
-password=os.getenv("PASSWORD")
-hostname=os.getenv("HOST_NAME")
-port=os.getenv("PORT")
+postgres_url=os.getenv("POSTGRES_URL")
 db_name =os.getenv("DB_NAME")
-DATABASE_URL = f"postgresql+psycopg2://{username}:{password}@{hostname}:{port}/{db_name}"
+
+FULL_URL = f"{postgres_url}/{db_name}"
 
 # print(DATABASE_URL)
 
-engine = create_engine(DATABASE_URL)
+engine = create_engine(FULL_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
 

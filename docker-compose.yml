@@ -1,14 +1,12 @@
-# version: '3.8'
-
 services:
   frontend:
     build:
       context: ./frontend
       dockerfile: Dockerfile
     ports:
-      - "8502:8501" # Port chạy Streamlit
-    # env_file:
-    #   - .env
+      - "8501:8501" # Port chạy Streamlit
+    env_file:
+      - .env
     volumes:
       - ./frontend:/app
     depends_on:
@@ -20,18 +18,9 @@ services:
       context: ./backend
       dockerfile: Dockerfile
     ports:
-      - "8001:8000" # Port chạy FastAPI
+      - "8000:8000" # Port chạy FastAPI
     env_file:
       - .env
-    # environment:
-    #   - GOOGLE_API_KEY=${GOOGLE_API_KEY}
-    #   - QDRANT_API_KEY=${QDRANT_API_KEY}
-    #   - QDRANT_URL=${QDRANT_URL}
-    #   - HOST_NAME=${HOST_NAME}
-    #   - PORT=${PORT}
-    #   - USERNAME=${USERNAME}
-    #   - PASSWORD=${PASSWORD}
-    #   - DB_NAME=${DB_NAME}
     volumes:
       - ./backend:/app
     depends_on:
@@ -56,9 +45,10 @@ services:
     image: redis:latest
     container_name: redis
     ports:
-      - "6380:6379"
+      - "6379:6379"
     volumes:
       - redis_data:/data
+    command: ["redis-server"]
 
   qdrant:
     image: qdrant/qdrant:latest

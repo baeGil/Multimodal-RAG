@@ -1,5 +1,5 @@
 from .crud_service import create_multi_vector_retriever
-from .document_service import extract_pdf_elements, categorize_elements, relocate
+from .document_service import extract_tables, extract_texts_and_images, categorize_elements, relocate
 from langchain_text_splitters import CharacterTextSplitter
 from .summaries_service import generate_text_summaries, generate_img_summaries
 from .crud_service import VectorStore
@@ -10,10 +10,12 @@ def embed_chain(fpath, fname, session_name):
     # fname = "attention-is-all-you-need.pdf"
 
     # Get elements
-    raw_pdf_elements = extract_pdf_elements(fpath, fname)
+    texts_element = extract_texts_and_images(fpath, fname)
+    tables_element = extract_tables(fpath, fname)
 
     # Get text, tables
-    texts, tables = categorize_elements(raw_pdf_elements)
+    texts = categorize_elements(texts_element, "CompositeElement")
+    tables = categorize_elements(tables_element, "Table")
 
     # Optional: Enforce a specific token size for texts
     text_splitter = CharacterTextSplitter.from_tiktoken_encoder(

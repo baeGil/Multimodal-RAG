@@ -10,6 +10,8 @@ sentence_transformers ==3.3.1
 langchain-community ==0.3.8
 langchain-google-genai ==2.0.5 # using gemini from google
 python-decouple ==3.8 # For environment variable management
-pdfminer.six
-pi_heif
-IPython
+pdfminer.six ==20231228
+pi_heif ==0.20.0
+IPython ==8.20.0
+tiktoken ==0.7.0
+python-dotenv

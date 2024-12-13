@@ -3,19 +3,17 @@ import shutil, os
 
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
-# Extract elements from PDF using unstructured
-def extract_pdf_elements(path, fname):
+# Extract elements from PDF
+def extract_texts_and_images(path, fname):
     """
-    Extract images, tables, and chunk text from a PDF file.
+    Extract images and chunk text from a PDF file.
     path: File path, which is used to dump images (.jpg)
     fname: File name
     """
     return partition_pdf(
         filename=path +"/"+ fname,
-        strategy="hi_res",
         extract_images_in_pdf=True,
-        extract_image_block_types=["Image", "Table"],
-        infer_table_structure=True,
+        extract_image_block_types=["Image"],
         chunking_strategy="by_title",
         max_characters=4000,
         new_after_n_chars=3800,
@@ -23,20 +21,23 @@ def extract_pdf_elements(path, fname):
         extract_image_block_output_dir=path,
     )
 
+# extract tables from pdf
+def extract_tables(path, fname):
+    return partition_pdf(
+        filename=path +"/"+ fname,
+        infer_table_structure=True,
+        strategy='hi_res',
+    )
+    
 # Categorize elements by type
-def categorize_elements(raw_pdf_elements):
+def categorize_elements(element, type):
     """
     Categorize extracted elements from a PDF into tables and texts.
-    raw_pdf_elements: List of unstructured.documents.elements
+    element: List of unstructured.documents.elements
     """
-    tables = []
-    texts = []
-    for element in raw_pdf_elements:
-        if "unstructured.documents.elements.Table" in str(type(element)):
-            tables.append(str(element))
-        elif "unstructured.documents.elements.CompositeElement" in str(type(element)):
-            texts.append(str(element))
-    return texts, tables
+    unstructured_element = [el for el in element if el.category == type]
+    result = [el.text for el in unstructured_element]
+    return result
 
 # Relocate images and tables
 

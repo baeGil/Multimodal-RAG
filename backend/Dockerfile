@@ -1,23 +1,27 @@
-# backend/Dockerfile
-FROM python:3.12
+# Use python base image
+FROM python:3.11.7-slim
 
-# # Cài đặt thư mục làm việc
+# working directory
 WORKDIR /backend
 
-# # Copy dependencies
+# copy dependencies file
 COPY requirements.txt .
 
-# # Copy folder
+# Upgrade pip, install dependencies
+RUN pip install --upgrade pip && \
+    pip install -r requirements.txt --index-url=https://pypi.tuna.tsinghua.edu.cn/simple
+
+# Install libGL
+RUN apt-get update && apt-get install -y \
+    libgl1 \
+    poppler-utils \
+    tesseract-ocr \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy folder
 COPY ./app ./app
 COPY ./data ./data
 
-# # Cài đặt dependencies
-RUN pip install --no-cache-dir -r requirements.txt
+# Run fast api 
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--workers", "1"]
 
-# Cài đặt libGL và các gói phụ thuộc cần thiết
-RUN apt-get update && apt-get install -y \
-    libgl1 \
-    && rm -rf /var/lib/apt/lists/*
-
-# # Chạy FastAPI với Uvicorn
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]

@@ -5,7 +5,7 @@ import os
 # create qdrant client
 client = QdrantClient(
     url=os.getenv("QDRANT_URL"),
-    api_key=os.getenv("QDRANT_API_KEY")
+    # api_key=os.getenv("QDRANT_API_KEY")
 )
 
 # create colections 

@@ -12,8 +12,8 @@ from .database.tables import Base
 # Define the lifespan context manager for startup events
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    # Create the tables when the app starts
-    # Base.metadata.create_all(bind=engine)
+    # Create the sessions table when the app starts
+    Base.metadata.create_all(bind=engine)
     
     # create a retriver store to store the retriever for lifetime of fast API app
     app.state.retriever_store = {}
@@ -28,7 +28,12 @@ async def lifespan(app: FastAPI):
     print("Application is shutting down...")
 
 app = FastAPI(lifespan=lifespan)
-
+@app.get("/debug")
+async def debug_state():
+    return {
+        "retriever_store": len(app.state.retriever_store),
+        "chat_history": app.state.chat_history,
+    }
 app.include_router(file_app)
 app.include_router(qa_app)
 app.include_router(session_app)

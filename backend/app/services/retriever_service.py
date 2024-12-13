@@ -5,7 +5,7 @@ from langchain_core.runnables import RunnableLambda, RunnablePassthrough, Runnab
 from langchain_core.prompts import MessagesPlaceholder
 from .model_service import gemini_model
 from langchain_core.output_parsers import StrOutputParser
-from .image_service import looks_like_base64, plt_img_base64, is_image_data, resize_base64_image
+from .image_service import looks_like_base64, is_image_data, resize_base64_image
 
 # Adding memory
 # Question maker
@@ -74,7 +74,7 @@ def img_prompt_func(data_dict):
             "You are a helpful and smart math assistant tasking with providing mathematics knowledge \n"
             "You will be given a mixed of text, tables, and image(s) usually of charts or graphs.\n"
             "Use this information to provide the answer to the user question.\n"
-            "The answer must be written in LaTeX format because it may contain mathemtic sybolics, formulas.\n"
+            "The answer must ONLY be written in LaTeX format (or HTML if needed).\n"
             "Only provide meaningful, complete and concise answer. If you don't know the answer, just say you don't know, dont' try to make up one.\n"
             f"User-provided question: {data_dict['question']}\n\n"
             "Text and / or tables:\n"
@@ -82,7 +82,7 @@ def img_prompt_func(data_dict):
         ),
     }
     messages.append(text_message)
-    system_prompt = "Your name is Ngoc Anh."
+    system_prompt = "Your name is Gilgamesh"
     
     qa_prompt = ChatPromptTemplate.from_messages(
     [   SystemMessage(content=system_prompt),

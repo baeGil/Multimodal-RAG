@@ -21,19 +21,8 @@ git clone https://github.com/baeGil/Multimodal-RAG.git
 ```
 
 ### 3. Provide `.env` file and `data` folder
-Create a `.env` file inside the root directory of the project, following the format below
-
-```shell
-GOOGLE_API_KEY=YOUR_GOOGLE_API_KEY
-QDRANT_API_KEY=YOUR_QDRANT_API_KEY
-QDRANT_URL=YOUR_QDRANT_URL
-HOST_NAME="postgres"
-PORT=5432
-USERNAME=YOUR_POSTGRES_USERNAME
-PASSWORD=YOUR_POSTGRES_PASSWORD
-DB_NAME=YOUR_DB_NAME (multimodal_rag is suggested)
-```
-Go to backend folder and create an empty folder name `data` if it not exists
+- Change the `.env.example` file to `.env`, remember to provide your Google API key and your Postgres password either
+- Go to backend folder and create an empty folder name `data` if it not exists
 ### 4. Build the Docker Compose
 
 Navigate to the root directory of the project and run the following command to build the Docker containers:
@@ -47,13 +36,24 @@ docker-compose up -d
 You can now view your Streamlit app in your browser by clicking this [url](http://localhost:8501)
 
 ![alt text](images/streamlit_app.png "Streamlit app")
+
+**Note:**  
+The `chat history` serves as memory for the conversation along with each session's `retriever store` are created and stored when `FastAPI` server is started, persisting throughout its lifecycle, this means restarting `Docker` container will erase them. Upon restarting `Docker`, please create a new session and upload new files to continue the conversation. Using an old session after a restart will cause an error. You can delete all old conversation histories, old sessions and uploaded files in `Redis` by running the following command
+```bash
+redis-cli
+```
+to start `Redis client`, then run
+```bash
+FLUSHALL
+```
+
 ## Technologies Used
 
 This project leverages the following technologies:
 
 ### **Gemini**
-- Gemini 1.5 Flash free tier: fast and flexible performance on many tasks (retriever, summary)
-- [Gemini](https://ai.google.dev/gemini-api/docs/models/gemini?hl=vi)
+- Gemini 2.0 Flash Experimental free tier: fast and flexible performance on many tasks (retriever, summary)
+- [Gemini 2.0](https://deepmind.google/technologies/gemini/)
 
 ### **FastAPI**
 - FastAPI is used as the backend framework for creating APIs. It provides high performance and easy-to-use features for building RESTful APIs.

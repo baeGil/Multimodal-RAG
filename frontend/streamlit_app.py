@@ -1,10 +1,12 @@
 # python -m streamlit run streamlit_app.py
 from redis_client import redis_client as redis_conn
 import streamlit as st
-import json, requests, uuid, httpx
-import time
+import json, requests, uuid, time, os
+from dotenv import load_dotenv
 
-API_URL = "http://127.0.0.1:8000"
+load_dotenv()
+
+API_URL = os.getenv("API_URL")
 
 # Hàm quản lý session
 def get_all_sessions():
@@ -69,14 +71,11 @@ def ask_question(session_id, session_name, question):
         'session_name': session_name,
         'question': question
     })
-    try:
-        response = requests.post(url, data=question_data)  
-        if response.status_code == 200:
-            return eval(response.text) # Evaluate the given source in the context of globals and locals then return result
-        else:
-            return "Error when making a question !! "
-    except httpx.RequestError as e:
-        return f"Connection error: {e}"
+    response = requests.post(url, data=question_data)  
+    if response.status_code == 200:
+        return eval(response.text) # Evaluate the given source in the context of globals and locals then return result
+    else:
+        return "Error when making a question !! "
 
 # Sidebar
 with st.sidebar:
@@ -166,7 +165,7 @@ else:
                 full_ans += word + " "
                 time.sleep(0.15)
                 holder.chat_message("assistant").write(full_ans + "▌", unsafe_allow_html=True) # allow HTML to render as it was instead of raw string
-            holder.chat_message("assistant").write(full_ans)
+            holder.chat_message("assistant").write(full_ans, unsafe_allow_html=True)
         
         # Finally save to redis
         history.append(new_answer)

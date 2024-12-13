@@ -15,6 +15,8 @@ if "GOOGLE_API_KEY" not in os.environ:
     os.environ["GOOGLE_API_KEY"] = getpass.getpass("Enter your Google AI API key: ")
     
 gemini_model = ChatGoogleGenerativeAI( 
-    model="gemini-1.5-flash",
-    temperature=0,
+    model="gemini-2.0-flash-exp",
+    temperature=0.3,
+    top_k=100,
+    top_p=0.9
 )
