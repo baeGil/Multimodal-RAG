@@ -66,4 +66,4 @@ def relocate(fpath,fname):
         # Kiểm tra nếu là file hình ảnh và di chuyển vào thư mục images
         elif filename.startswith("figure-") and filename.endswith(".jpg"):
             shutil.move(file_path, os.path.join(image_output_dir, filename))
-    return table_output_dir, image_output_dir
+    return table_output_dir, image_output_dir 
