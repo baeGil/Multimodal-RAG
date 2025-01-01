@@ -86,4 +86,4 @@ A special thanks to the following repositories for their contributions to the su
 - [Multi-modal RAG by LangChain](https://github.com/langchain-ai/langchain/blob/master/cookbook/Multi_modal_RAG.ipynb)
 - [Local Multimodal by MnMTech](https://github.com/MnMTech-hub/tutorials/blob/master/LM-Studio/Local-Multimodal.ipynb)
 
-These repositories provided valuable insights and resources that were integral in the development of this project.
+These repositories provided valuable insights and resources that were integral in the development of this project. 
